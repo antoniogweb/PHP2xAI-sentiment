@@ -5,7 +5,6 @@ use PHP2xAI\Tokenizer\PHP\Tokenizer;
 include("../vendor/autoload.php");
 
 const SEQUENCE_LENGTH = 1024;
-const PAD_TOKEN_ID = 0;
 const TRAIN_SHUFFLE_SEED = 42;
 const TEST_SHUFFLE_SEED = 43;
 
@@ -67,7 +66,7 @@ function writeDataset(Tokenizer $tokenizer, string $splitDir, string $outputPath
 			if ($text === '')
 				continue;
 
-			$ids = fixedLengthIds($tokenizer->encode($text, true), SEQUENCE_LENGTH);
+			$ids = $tokenizer->encodeFixed($text, SEQUENCE_LENGTH);
 			$rows[] = implode(' ', $ids).'|'.$label;
 		}
 	}
@@ -109,21 +108,6 @@ function listTextFiles(string $dir): array
 	sort($files, SORT_NATURAL);
 
 	return $files;
-}
-
-/**
- * @param int[] $ids
- * @return int[]
- */
-function fixedLengthIds(array $ids, int $length): array
-{
-	$ids = array_slice(array_values($ids), 0, $length);
-	$count = count($ids);
-
-	if ($count < $length)
-		$ids = array_pad($ids, $length, PAD_TOKEN_ID);
-
-	return $ids;
 }
 
 /**
