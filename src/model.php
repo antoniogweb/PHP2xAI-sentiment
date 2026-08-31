@@ -46,8 +46,8 @@ class SentimentModel extends Model
 	{
 		$embMeanPool = $this->getEmbMeanPool($x);
 		
-		$L1 = $embMeanPool->matmul($this->W1)->add($this->b1)->ReLU();
-		$L2 = $L1->matmul($this->W2)->add($this->b2)->ReLU();
+		$L1 = $embMeanPool->matmul($this->W1)->add($this->b1)->ReLU()->dropout(20);
+		$L2 = $L1->matmul($this->W2)->add($this->b2)->ReLU()->dropout(20);
 		$L3 = $L2->matmul($this->W3)->add($this->b3);
 		
 		return $L3;

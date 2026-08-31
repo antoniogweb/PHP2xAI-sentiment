@@ -30,9 +30,9 @@ $valDataset = new StreamFileDataset($path."/test.txt", 300);
 
 $tvDataset = new TrainValidateDataset($dataset, $valDataset);
 
-$optimizer = new Adam(0.0001, 0.9, 0.999);
+$optimizer = new Adam(0.00005, 0.9, 0.999);
 $optimizer->setGradClip(1.0); // evita spike di gradiente che fanno risalire la loss
-$model = new SentimentModel($optimizer, 128, 64, 30000, 512, 256);
+$model = new SentimentModel($optimizer, 256, 128, 30000);
 
 $epochsNumber = 20;
 
