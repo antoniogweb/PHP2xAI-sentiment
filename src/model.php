@@ -29,6 +29,11 @@ class SentimentModel extends Model
 	
 	public function getEmbMeanPool(Tensor $x) : Tensor
 	{
+		$embMeanPool = $x->embeddingsMeanPooling($this->embTable, 0);
+		$embMeanPool->setTrainable(false);
+		$embMeanPool->setRequiresGrad(true);
+
+		/*
 		$paddingMask = $x->paddingMask(0);
 		
 		$embeddings = $x->embeddings($this->embTable);
@@ -38,6 +43,7 @@ class SentimentModel extends Model
 		$embMeanPool = $embeddings->meanPooling($paddingMask);
 		$embMeanPool->setTrainable(false);
 		$embMeanPool->setRequiresGrad(true);
+		*/
 		
 		return $embMeanPool;
 	}
