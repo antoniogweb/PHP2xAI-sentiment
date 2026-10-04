@@ -1,5 +1,6 @@
 <?php
 
+use PHP2xAI\Runtime\PHP\Datasets\HDF5Dataset;
 use PHP2xAI\Runtime\PHP\Datasets\StreamFileDataset;
 
 ini_set('precision', 30);
@@ -11,7 +12,8 @@ include('../vendor/autoload.php');
 include('model.php');
 
 $path = './DataLabelInt';
-$valDataset = new StreamFileDataset($path . '/test.txt', 300);
+// $valDataset = new StreamFileDataset($path . '/test.txt', 300);
+$valDataset = new HDF5Dataset($path . '/test.h5', 300);
 
 $model = new SentimentModel();
 $model->setRuntime('CPP');

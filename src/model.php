@@ -12,7 +12,7 @@ use PHP2xAI\Runtime\PHP\Optimizers\Optimizer;
 
 class SentimentModel extends Model
 {
-	public function __construct(?Optimizer $optimizer = null, int $hidden1 = 128, int $hidden2 = 64, $V = 30000, $L = 1024, $embDimension = 512)
+	public function __construct(?Optimizer $optimizer = null, int $hidden1 = 128, int $hidden2 = 64, $V = 30000, $L = 1024, $embDimension = 128)
 	{
 		$this->embTable = Tensor::init([$V, $embDimension], 0.05);
 		
@@ -53,7 +53,7 @@ class SentimentModel extends Model
 		$embMeanPool = $this->getEmbMeanPool($x);
 		
 		$L1 = $embMeanPool->matmul($this->W1)->add($this->b1)->ReLU()->dropout(20);
-		$L2 = $L1->matmul($this->W2)->add($this->b2)->ReLU()->dropout(20);
+		$L2 = $L1->matmul($this->W2)->add($this->b2)->ReLU()->dropout(40);
 		$L3 = $L2->matmul($this->W3)->add($this->b3);
 		
 		return $L3;
